@@ -68,7 +68,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	})
 	handleErr(err)
 
-	http.Redirect(w, req, req.URL.String(), http.StatusTemporaryRedirect)
+	http.Redirect(w, req, req.URL.Path, http.StatusFound)
 }
 
 func authorizeMiddleware(next http.Handler) http.Handler {
