@@ -1,18 +1,34 @@
-<form method="post">
-    <div>
-        <label for="enabled">Enable Confetti on your site</label>
-        <input type="checkbox" name="enabled" id="enabled" {{if .Enabled }}checked{{end}}>
+<div class="sage-container sage-container--lg">
+  <form method="post">
+    <div class="sage-form-section">
+      <div class="sage-form-section__info">
+        <h5 class="sage-form-section__title t-sage-heading-5">
+          Confetti
+        </h5>
+        <p class="sage-form-section__subtitle sage-form-section__subtitle--legacy">
+          Choose to enable Confetti, and customize it for your site.
+        </p>
+      </div>
+      <div class="sage-form-section__content">
+        <section class="sage-panel">
+          <div class="sage-switch sage-spacer-bottom">
+            <input class="sage-switch__input" type="checkbox" id="enabled" name="enabled" {{if .Enabled }}checked{{end}} value="{{ .Enabled }}">
+            <label class="sage-switch__label" for="enabled">Enable Confetti on your site</label>
+          </div>
+          <div class="sage-input">
+            <input class="sage-input__field" placeholder="Maximum Number of Confetti" type="text" name="max" id="max" value="{{ .Max }}">
+            <label class="sage-input__label string required" for="max">Max Number of Confetti</label>
+          </div>
+          <div class="sage-input">
+            <input class="sage-input__field" placeholder="Size of the Confetti" type="number" name="size" id="size" value="{{ .Size }}">
+            <label class="sage-input__label string required" for="max">Size of the Confetti</label>
+          </div>
+        </section>
+      </div>
     </div>
-
-    <div>
-        <label for="max">Maximum Number of Confetti</label>
-        <input type="number" name="max" id="max" value="{{ .Max }}">
+    <hr>
+    <div class="sage-btn-group sage-btn-group--align-end sage-btn-group--gap-md">
+      <button class="sage-btn sage-btn--primary sage-btn--raised" type="submit">Save</button>
     </div>
-
-    <div>
-        <label for="size">Size of the confetti</label>
-        <input type="number" name="size" id="size" value="{{ .Size }}">
-    </div>
-
-    <button type="submit">Save</button>
-</form>
+  </form>
+</div>
