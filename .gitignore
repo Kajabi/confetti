@@ -1,1 +1,5 @@
 .env
+.npmrc
+node_modules
+package-lock.json
+assets/static/sage-assets/main.js.LICENSE.txt
