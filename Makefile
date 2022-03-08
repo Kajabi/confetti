@@ -10,6 +10,5 @@ sage-assets:
 
 sage-system:
 	npm install
-	# rm assets/static/sage-react/main.js
-	# cp -R node_modules/@kajabi/sage-react/dist/main.js assets/static/sage-assets
+	rm assets/static/sage-assets/main.js
 	npx webpack build ./node_modules/@kajabi/sage-react/dist/main.js -o assets/static/sage-assets
