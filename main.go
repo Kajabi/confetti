@@ -71,6 +71,9 @@ func Edit(w http.ResponseWriter, req *http.Request) {
 	siteId, err := strconv.Atoi(chi.URLParam(req, "id"))
 	handleErr(err)
 
+	token := req.Context().Value("token").(string)
+	fmt.Println(token)
+
 	src, err := findScriptTag(int64(siteId), req)
 	handleErr(err)
 
@@ -133,7 +136,7 @@ func authorizeMiddleware(next http.Handler) http.Handler {
 
 func apiClient(req *http.Request) (*api.ClientWithResponses, error) {
 	token := req.Context().Value("token").(string)
-	return api.NewClientWithResponses("https://api-development.kajabi.dev", api.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {
+	return api.NewClientWithResponses(envy.MustGet("API_DOMAIN"), api.WithRequestEditorFn(func(ctx context.Context, req *http.Request) error {
 		req.Header.Add("Authorization", "Bearer "+token)
 		return nil
 	}))
