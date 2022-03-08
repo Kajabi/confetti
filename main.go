@@ -48,6 +48,8 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
+	router.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
+
 	// Site routes
 	router.Route("/sites", func(router chi.Router) {
 		router.Use(authorizeMiddleware)
