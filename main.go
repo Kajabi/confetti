@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	_ "github.com/codegangsta/envy/autoload"
@@ -15,6 +16,27 @@ import (
 )
 
 var r *render.Render
+
+type ConfettiForm struct {
+	Enabled bool
+	Max     string
+	Size    string
+}
+
+func (f *ConfettiForm) ScriptURL() (*url.URL, error) {
+	url, err := url.Parse("https://s3.amazonaws.com/sandbox-integrations-scripts-development.kajabi.dev/scripts/confetti.js")
+	if err != nil {
+		return url, err
+	}
+
+	q := url.Query()
+	q.Add("enabled", strconv.FormatBool(f.Enabled))
+	q.Add("max", f.Max)
+	q.Add("size", f.Size)
+	url.RawQuery = q.Encode()
+
+	return url, nil
+}
 
 func main() {
 	r = render.New(render.Options{
@@ -47,25 +69,47 @@ func Edit(w http.ResponseWriter, req *http.Request) {
 	siteId, err := strconv.Atoi(chi.URLParam(req, "id"))
 	handleErr(err)
 
-	client, err := apiClient(req)
+	src, err := findScriptTag(int64(siteId), req)
 	handleErr(err)
 
-	resp, err := client.ListScriptTagsWithResponse(req.Context(), int64(siteId))
+	url, err := url.Parse(src)
 	handleErr(err)
 
-	r.HTML(w, http.StatusOK, "edit", resp.ScriptTagList.ScriptTags)
+	// Map the url to a form
+	form := &ConfettiForm{
+		Enabled: url.Query().Get("enabled") == "true",
+		Max:     queryWithDefault(url, "max", "80"),
+		Size:    queryWithDefault(url, "size", "1"),
+	}
+
+	r.HTML(w, http.StatusOK, "edit", form)
+}
+
+func queryWithDefault(url *url.URL, key string, def string) string {
+	if len(url.Query().Get(key)) > 0 {
+		return url.Query().Get(key)
+	} else {
+		return def
+	}
 }
 
 func Update(w http.ResponseWriter, req *http.Request) {
 	siteId, err := strconv.Atoi(chi.URLParam(req, "id"))
 	handleErr(err)
 
-	client, err := apiClient(req)
+	_, err = apiClient(req)
 	handleErr(err)
 
-	_, err = client.AddScriptTagWithResponse(req.Context(), int64(siteId), &api.ScriptTagCreateUpdate{
-		SourceUrl: "https://s3.amazonaws.com/sandbox-integrations-scripts-development.kajabi.dev/scripts/confetti.js",
-	})
+	form := &ConfettiForm{
+		Enabled: req.PostFormValue("enabled") == "on",
+		Max:     req.PostFormValue("max"),
+		Size:    req.PostFormValue("size"),
+	}
+
+	url, err := form.ScriptURL()
+	handleErr(err)
+
+	err = createOrUpdateScriptTag(int64(siteId), url.String(), req)
 	handleErr(err)
 
 	http.Redirect(w, req, req.URL.Path, http.StatusFound)
@@ -91,6 +135,50 @@ func apiClient(req *http.Request) (*api.ClientWithResponses, error) {
 		req.Header.Add("Authorization", "Bearer "+token)
 		return nil
 	}))
+}
+
+func findScriptTag(siteId int64, r *http.Request) (string, error) {
+	client, err := apiClient(r)
+	if err != nil {
+		return "", err
+	}
+
+	resp, err := client.ListScriptTagsWithResponse(r.Context(), siteId)
+	if err != nil {
+		return "", err
+	}
+
+	if len(resp.ScriptTagList.ScriptTags) > 0 {
+		return resp.ScriptTagList.ScriptTags[0].SourceUrl, nil
+	}
+
+	return "", nil
+}
+
+func createOrUpdateScriptTag(siteId int64, source string, r *http.Request) error {
+	client, err := apiClient(r)
+	if err != nil {
+		return err
+	}
+
+	resp, err := client.ListScriptTagsWithResponse(r.Context(), siteId)
+	if err != nil {
+		return err
+	}
+
+	if len(resp.ScriptTagList.ScriptTags) > 0 {
+		_, err := client.UpdateScriptTag(r.Context(), siteId, resp.ScriptTagList.ScriptTags[0].Id, &api.ScriptTagCreateUpdate{
+			SourceUrl: source,
+		})
+
+		return err
+	}
+
+	_, err = client.AddScriptTag(r.Context(), siteId, &api.ScriptTagCreateUpdate{
+		SourceUrl: source,
+	})
+
+	return err
 }
 
 func handleErr(err error) {

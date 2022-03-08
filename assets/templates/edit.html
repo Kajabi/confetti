@@ -1,10 +1,18 @@
-Confetti
-
-Script Tags: {{ . }}
-
 <form method="post">
-    <label for="enabled">Enable Confetti on your site</label>
-    <input type="checkbox" name="enable" id="enable">
+    <div>
+        <label for="enabled">Enable Confetti on your site</label>
+        <input type="checkbox" name="enabled" id="enabled" {{if .Enabled }}checked{{end}}>
+    </div>
+
+    <div>
+        <label for="max">Maximum Number of Confetti</label>
+        <input type="number" name="max" id="max" value="{{ .Max }}">
+    </div>
+
+    <div>
+        <label for="size">Size of the confetti</label>
+        <input type="number" name="size" id="size" value="{{ .Size }}">
+    </div>
 
     <button type="submit">Save</button>
 </form>
