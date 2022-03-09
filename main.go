@@ -108,8 +108,6 @@ func Update(w http.ResponseWriter, req *http.Request) {
 		Size:    req.PostFormValue("size"),
 	}
 
-	fmt.Println("enabled", req.PostFormValue("enabled"))
-
 	url, err := form.ScriptURL()
 	handleErr(err)
 
