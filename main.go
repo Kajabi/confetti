@@ -21,6 +21,7 @@ type ConfettiForm struct {
 	Enabled bool
 	Max     string
 	Size    string
+	Speed   string
 }
 
 func (f *ConfettiForm) ScriptURL() (*url.URL, error) {
@@ -33,6 +34,7 @@ func (f *ConfettiForm) ScriptURL() (*url.URL, error) {
 	q.Add("enabled", strconv.FormatBool(f.Enabled))
 	q.Add("max", f.Max)
 	q.Add("size", f.Size)
+	q.Add("speed", f.Speed)
 	url.RawQuery = q.Encode()
 
 	return url, nil
@@ -82,6 +84,7 @@ func Edit(w http.ResponseWriter, req *http.Request) {
 		Enabled: url.Query().Get("enabled") == "true",
 		Max:     queryWithDefault(url, "max", "80"),
 		Size:    queryWithDefault(url, "size", "1"),
+		Speed:   queryWithDefault(url, "speed", "25"),
 	}
 
 	r.HTML(w, http.StatusOK, "edit", form)
@@ -106,6 +109,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 		Enabled: req.PostFormValue("enabled") == "on",
 		Max:     req.PostFormValue("max"),
 		Size:    req.PostFormValue("size"),
+		Speed:   req.PostFormValue("speed"),
 	}
 
 	url, err := form.ScriptURL()
