@@ -71,9 +71,6 @@ func Edit(w http.ResponseWriter, req *http.Request) {
 	siteId, err := strconv.Atoi(chi.URLParam(req, "id"))
 	handleErr(err)
 
-	token := req.Context().Value("token").(string)
-	fmt.Println(token)
-
 	src, err := findScriptTag(int64(siteId), req)
 	handleErr(err)
 
@@ -110,6 +107,8 @@ func Update(w http.ResponseWriter, req *http.Request) {
 		Max:     req.PostFormValue("max"),
 		Size:    req.PostFormValue("size"),
 	}
+
+	fmt.Println("enabled", req.PostFormValue("enabled"))
 
 	url, err := form.ScriptURL()
 	handleErr(err)
