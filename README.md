@@ -53,7 +53,7 @@ the endpoints below.
 Your should provide helper functions to set up/run your application (assume a
 Unix-like environment).
 
-`GET /authorize`
+#### `GET /authorize`
 
 When the app is installed via Kajabi's site settings or the CLI, this is the
 endpoint that is called. The site's id will be apppended to the URL as a query
@@ -65,11 +65,11 @@ The site's id must be included in the request.
 
 When the user grants the app access, the auth provider will redirect to the following URL.
 
-`GET /callback`
+#### `GET /callback`
 
 This endpoint validates the response, persists the token in a cookie/session, and redirects to the following URL.
 
-`GET /sites/{site_id}`
+#### `GET /sites/{site_id}`
 
 If a request to this endpoint does not have a token present, redirect to `/authorize`.
 
@@ -88,7 +88,7 @@ If no URL exists yet for this site, use the following default values:
 
 Render and return the form in `edit.html` with the values.
 
-`POST /sites/{site_id}`
+#### `POST /sites/{site_id}`
 
 If a request to this endpoint does not have a token present, redirect to `/authorize`.
 
