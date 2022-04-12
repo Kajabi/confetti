@@ -29,6 +29,9 @@ If you'd like to add a new version of Confetti to the repo, create a new directo
 with the following `README.md`. The newly-created directory should use the naming
 convention `language_framework`.
 
+Care should be taken to implement the app using idioms common to the language
+and framework you're using.
+
 ```
 # {{LANGUAGE OR FRAMEWORK}} Confetti
 
