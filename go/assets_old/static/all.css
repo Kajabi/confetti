@@ -1,0 +1,11 @@
+.sage-panel {
+  gap: 0;
+}
+
+.sage-select__field {
+  -webkit-appearance: none;
+}
+
+.sage-switch {
+  margin-bottom: 1.5rem;
+}

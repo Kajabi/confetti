@@ -43,7 +43,7 @@ func (f *ConfettiForm) ScriptURL() (*url.URL, error) {
 func main() {
 	r = render.New(render.Options{
 		Layout:     "layout",
-		Directory:  "assets/templates",
+		Directory:  "templates",
 		Extensions: []string{".html"},
 	})
 
