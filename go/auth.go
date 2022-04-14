@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	envy "github.com/codegangsta/envy/lib"
-	"github.com/kajabi/confetti/auth"
+	"github.com/kajabi/confetti/go/auth"
 )
 
 var authClient = auth.NewClient(&auth.Options{

@@ -30,7 +30,7 @@ with the following `README.md`. The newly-created directory should use the namin
 convention `language_framework`.
 
 Care should be taken to implement the app using idioms common to the language
-and framework you're using.
+and framework you're using. When serving your application locally, use port 3000.
 
 ```
 # {{LANGUAGE OR FRAMEWORK}} Confetti
@@ -48,13 +48,22 @@ at developer-platform@kajabi.com.)
 8. Install your new app: `kajabi app install`
 ```
 
+After installing the app, the Confetti admin panel will open in your default browser.
+
+![Confetti Admin Panel](/assets/confetti-admin.png)
+
+Click the Enable toggle, and then click the Save button, to enable confetti on your site. Party time!
+
 ### Confetti Specification
 
 The Confetti app is granted access to the user's site with OAuth, and must implement
 the endpoints below.
 
-Your should provide helper functions to set up/run your application (assume a
-Unix-like environment).
+- You should provide helper functions to set up/run your application (assume a
+Unix-like environment)
+- When running the app locally, use port 3000
+- Copy `assets/templates/edit.html` to your project and modify it for your templating language
+- Do NOT copy `assets/static` to your project—create a symlink to this folder instead
 
 #### `GET /authorize`
 
