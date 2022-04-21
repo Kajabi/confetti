@@ -80,22 +80,19 @@ def site(site_id):
         query_params = form.data.copy()
         query_params.pop("csrf_token")
         url = SCRIPT_URL + f"?{urlencode(query_params)}"
-        print(url)
 
         # create_or_update_script_tag
         script_tags = get_script_tags(site_id, token)
-        print(script_tags)
 
         if not script_tags:
-            print(create_script_tag(site_id, token, url))
+            create_script_tag(site_id, token, url)
         else:
-            print(update_script_tag(site_id, script_tags[0]["id"], token, url))
+            update_script_tag(site_id, script_tags[0]["id"], token, url)
 
         return render_template("edit.html", form=form)
 
     # GET
     script_tags = get_script_tags(site_id, token)
-    print(script_tags)
 
     if script_tags:
         script_tag = script_tags[0]
@@ -109,7 +106,6 @@ def site(site_id):
             "size": int(parsed.get("size", 1)[0]),
             "speed": int(parsed.get("speed", 25)[0]),
         }
-        print(data)
         form = ConfettiForm(**data)
 
     return render_template("edit.html", form=form)
