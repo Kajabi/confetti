@@ -1,4 +1,5 @@
+authlib
 flask
 Flask-WTF
 python-dotenv
-authlib
+requests
