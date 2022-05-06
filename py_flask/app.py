@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = env.get("FLASK_SECRET_KEY")
 
 scopes = env.get("SCOPES").replace(",", " ")
-SCRIPT_URL = "https://s3.amazonaws.com/sandbox-integrations-scripts-development.kajabi.dev/scripts/confetti.js"
+SCRIPT_URL = env.get("SCRIPT_URL")
 
 
 oauth = OAuth(app)
@@ -54,7 +54,7 @@ def authorize():
         site_id=site_id,
     )
 
-    # NOTE Ensure your authorize URL is passing audience and scope, otherwise you will get an opaque token back :-(
+    # NOTE Ensure your authorize URL is passing audience and scope, otherwise you will get an opaque token back
     return oauth.kajabi.authorize_redirect(url, audience=env.get("AUTH_AUDIENCE"))
 
 
