@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.secret_key = env.get("FLASK_SECRET_KEY")
 
 scopes = env.get("SCOPES").replace(",", " ")
-SCRIPT_URL = env.get("SCRIPT_URL")
+SCRIPT_URL = env.get("CONFETTI_SCRIPT_URL")
 
 
 oauth = OAuth(app)
