@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="sage-container sage-container--lg">
+  <form method="post">
+    {{ form.csrf_token }}
+    <div class="sage-form-section">
+      <div class="sage-form-section__info">
+        <h5 class="sage-form-section__title t-sage-heading-5">
+          Confetti
+        </h5>
+        <p class="sage-form-section__subtitle sage-form-section__subtitle--legacy">
+          Choose to enable Confetti, and customize it for your site.
+        </p>
+      </div>
+      <div class="sage-form-section__content">
+        <section class="sage-panel">
+          <div class="sage-switch sage-spacer-bottom">
+            <input class="sage-switch__input" type="checkbox" id="enabled" name="enabled" {% if form.enabled.data %}checked{% endif %}>
+            <label class="sage-switch__label" for="enabled">Enable Confetti on your site</label>
+          </div>
+          <div class="sage-input">
+            <input class="sage-input__field" placeholder="Maximum Number of Confetti" type="text" name="max" id="max" value="{{ form.max.data }}">
+            <label class="sage-input__label string required" for="max">Max Number of Confetti</label>
+          </div>
+          <div class="sage-input">
+            <input class="sage-input__field" placeholder="Size of the Confetti" type="number" name="size" id="size" value="{{ form.size.data }}">
+            <label class="sage-input__label string required" for="max">Size of the Confetti</label>
+          </div>
+
+        </section>
+      </div>
+    </div>
+    <hr>
+    <div class="sage-btn-group sage-btn-group--align-end sage-btn-group--gap-md">
+      <button class="sage-btn sage-btn--primary sage-btn--raised" type="submit">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
