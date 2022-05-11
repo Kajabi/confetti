@@ -14,7 +14,22 @@ You can explore how to set up apps using the samples in this repo.
 Installation instructions for each language/platform are in their respective
 directories.
 
-You'll need a Kajabi site; if you don't have one, reach out to us at [developer-platform@kajabi.com](mailto:developer-platform@kajabi.com).
+You'll need a Kajabi site; if you don't have one, reach out to us at
+[developer-platform@kajabi.com](mailto:developer-platform@kajabi.com).
+
+You'll need to enable script tags on your Kajabi site. On the Kajabi admin page
+for your site, go to Settings > Site Details and scroll down to the Page Scripts
+section.
+
+![Kajabi Admin Panel](/assets/kajabi-admin-page-scripts.png)
+
+Add the following snippet to the Page Scripts field:
+
+```js
+<script src="https://scripts.kajabi.dev/{YOUR_SITE_ID}/scripts.js"></script>
+```
+
+Your site id is the number after `/admin/sites/` in the URL of the admin page.
 
 You'll also need to have the [Kajabi CLI](https://kajabi-platform.stoplight.io/docs/developer-platform/ZG9jOjQ3MjM3MTgy-the-kajabi-cli)
 installed on your development machine to set up an app.
@@ -26,8 +41,8 @@ installed on your development machine to set up an app.
 ## Adding Another Piece of Confetti to the Pile
 
 If you'd like to add a new version of Confetti to the repo, create a new directory
-with the following `README.md`. The newly-created directory should use the naming
-convention `language_framework`.
+with the following `README.md` template. The newly-created directory should use
+the naming convention `language_framework`.
 
 Care should be taken to implement the app using idioms common to the language
 and framework you're using. When serving your application locally, use port 3000.
@@ -35,8 +50,15 @@ and framework you're using. When serving your application locally, use port 3000
 ```
 # {{LANGUAGE OR FRAMEWORK}} Confetti
 
-These instructions assume you've installed the [Kajabi CLI](https://kajabi-platform.stoplight.io/docs/developer-platform/branches/main/ZG9jOjQ3MjM3MTgy-the-kajabi-cli) and have a Kajabi account/site. (If you don't have a Kajabi account, reach out to us
-at developer-platform@kajabi.com.)
+Confetti is a sample Kajabi app to test out the Kajabi Developer Platform.
+
+These instructions assume you've installed the [Kajabi CLI](https://kajabi-platform.stoplight.io/docs/developer-platform/branches/main/ZG9jOjQ3MjM3MTgy-the-kajabi-cli), have a Kajabi account/site, and have enabled script tags on your site.
+
+(If you don't have a Kajabi account, reach out to us at developer-platform@kajabi.com.)
+
+Full details can be found in the
+[Getting Started](https://github.com/Kajabi/confetti#getting-started)
+section in this repo's README.
 
 1. Clone this Repository: `git clone git@github.com:Kajabi/confetti.git`
 2. Change to this directory: `cd ./{{DIR}}`
